@@ -7,7 +7,7 @@ const Card = (props) => {
   const {
     innerRef,
     provided,
-    taskId,
+    cardId,
   } = props;
 
   const dispatch = useDispatch();
@@ -46,7 +46,7 @@ Card.propTypes = {
     draggableProps: PropTypes.object.isRequired,
     dragHandleProps: PropTypes.object,
   }),
-  taskId: PropTypes.number.isRequired,
+  cardId: PropTypes.number.isRequired,
 };
 
 export default React.memo(Card);

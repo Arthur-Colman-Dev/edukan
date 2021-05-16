@@ -14,6 +14,8 @@ module.exports = {
         extensions: ['.js', '.jsx'],
         alias: {
           components$: path.resolve(__dirname, './src/components/index.js'),
+          actionTypes$: path.resolve(__dirname, './src/redux/actionTypes/index.js'),
+          selectors$: path.resolve(__dirname, './src/redux/selectors/index.js'),
         }
     },
     module: {

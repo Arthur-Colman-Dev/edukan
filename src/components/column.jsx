@@ -8,10 +8,15 @@ import {
   Card,
 } from 'components';
 
+import {
+  getColumnCards
+} from 'selectors'
+
 const Column = (props) => {
   const {
     column: {
       name,
+      id: columnId
     },
     innerRef,
     isHighlighted,
@@ -20,6 +25,8 @@ const Column = (props) => {
       placeholder: providedColumnPlaceholder,
     },
   } = props;
+
+  const columnCards = useSelector(getColumnCards)[columnId]
 
   const dispatch = useDispatch();
 
@@ -46,17 +53,17 @@ const Column = (props) => {
       </div>
       <div className="column__data">
         {
-          [1].map((taskId, taskIndex) => (
+          columnCards.map(({id}, cardIndex) => (
             <Draggable
-              key={taskId.toString()}
-              draggableId={taskId.toString()}
-              index={taskIndex}
+              key={id.toString()}
+              draggableId={id.toString()}
+              index={cardIndex}
               disableInteractiveElementBlocking
             >
               {
                 (providedCard) => (
                   <Card
-                    taskId={taskId}
+                    cardId={id}
                     innerRef={providedCard.innerRef}
                     provided={providedCard}
                   />
