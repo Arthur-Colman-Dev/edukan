@@ -5,7 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import classnames from 'classnames';
 
 import {
-  Column
+  Column,
+  GoogleLogin,
+  GoogleLogout,
 } from 'components';
 
 import {
@@ -50,6 +52,8 @@ const Board = (props) => {
 
   return (
     <div className='board'>
+      <GoogleLogin />
+      <GoogleLogout />
       <div className='board__container'>
         <DragDropContext onDragEnd={onDragEnd}>
           {
