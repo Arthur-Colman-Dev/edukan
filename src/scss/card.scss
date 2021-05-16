@@ -1,0 +1,55 @@
+.card {
+  // border: 1px solid $Grayscale200;
+  border-radius: 2px;
+  // box-shadow: 0px 4px 4px rgba($Black, 0.1);
+  // background-color: $White;
+  background-color: red;
+  min-height: 8.125rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+
+  &:hover {
+    transform: translateY(-2px);
+    // box-shadow: 0px 8px 8px rgba($Black, 0.1);
+    position: relative;
+    z-index: 5;
+  }
+
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+.card:not(.card--disabled) {
+  cursor: pointer;
+}
+
+.card--disabled {
+  .card__title, .card__client {
+    // color: $Grayscale500
+  }
+}
+
+.card__client {
+  margin-bottom: 0.5rem;
+  // color: $Grayscale500;
+}
+
+.card__client,
+.card__title {
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+.card__title {
+  margin: 0.5rem 0;
+  // color: $Grayscale900;
+}
+
+.card__title--done {
+  // color: $Grayscale500;
+  text-decoration: line-through;
+}
