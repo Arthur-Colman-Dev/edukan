@@ -19,7 +19,6 @@ const Column = (props) => {
       id: columnId
     },
     innerRef,
-    isHighlighted,
     itemCount,
     providedColumn: {
       placeholder: providedColumnPlaceholder,
@@ -35,13 +34,11 @@ const Column = (props) => {
       ref={innerRef}
       className={classnames(
         'column',
-        { 'column--highlighted': isHighlighted },
       )}
     >
       <div
         className={classnames(
           'column__info__background',
-          { 'column__info__background--highlighted': isHighlighted },
         )}
       >
         <div className="label14--regular column__info">
@@ -53,7 +50,7 @@ const Column = (props) => {
       </div>
       <div className="column__data">
         {
-          columnCards.map(({id}, cardIndex) => (
+          columnCards.map(({id, title}, cardIndex) => (
             <Draggable
               key={id.toString()}
               draggableId={id.toString()}
@@ -66,6 +63,8 @@ const Column = (props) => {
                     cardId={id}
                     innerRef={providedCard.innerRef}
                     provided={providedCard}
+                    title={title}
+                    cardDone={columnId === 3}
                   />
                 )
               }
@@ -78,17 +77,12 @@ const Column = (props) => {
   );
 };
 
-Column.defaultProps = {
-  isHighlighted: false,
-};
-
 Column.propTypes = {
   column: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     resolveStatus: PropTypes.bool.isRequired,
   }).isRequired,
-  isHighlighted: PropTypes.bool,
   itemCount: PropTypes.number.isRequired,
   innerRef: PropTypes.func.isRequired,
   providedColumn: PropTypes.shape({

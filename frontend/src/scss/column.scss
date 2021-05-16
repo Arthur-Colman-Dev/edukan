@@ -1,36 +1,16 @@
 .column {
-  // background-color: $Grayscale100;
-  // border: 1px solid $Grayscale400;
-  background-color: purple;
+  background-color: $gray100;
+  border: 1px solid $gray400;
   border-top: 0;
   border-radius: 10px 10px 0px 0px;
-  width: 20%;
+  width: 30%;
   position: relative;
   border-top: 0;
   min-width: 13rem;
 }
 
-.column--highlighted {
-  // background-color: rgba($TurquoisesLight, 0.5);
-  // border: 1px dashed $Black;
-  border-top: 0;
-
-  .card {
-    display: none;
-  }
-
-  .column__info__background {
-    // background-color: rgba($TurquoisesLight, 0.5);
-    // border-top: 1px dashed $Black;
-  }
-
-  &:hover {
-    // background-color: rgba($Greens400, 0.5);
-
-    .column__info__background {
-      // background-color: rgba($Greens400, 0.5);
-    }
-  }
+.column + .column {
+  margin-left: 1.5rem;
 }
 
 .column__info {
@@ -39,8 +19,8 @@
 }
 
 .column__info__background {
-  // background-color: $Grayscale100;
-  // border-top: 1px solid $Grayscale400;
+  background-color: $gray100;
+  border-top: 1px solid $gray400;
   border-radius: 10px 10px 0px 0px;
   padding: 0.5rem;
   position: sticky;
@@ -53,9 +33,9 @@
 }
 
 .column__title {
-  // color: $Grayscale900;
+  color: $gray900;
 }
 
 .column__count {
-  // color: $Grayscale600;
+  color: $gray600;
 }

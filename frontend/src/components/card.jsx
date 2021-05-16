@@ -7,7 +7,8 @@ const Card = (props) => {
   const {
     innerRef,
     provided,
-    cardId,
+    title,
+    cardDone,
   } = props;
 
   const dispatch = useDispatch();
@@ -27,9 +28,11 @@ const Card = (props) => {
         className={classnames(
           'body1--regular',
           'card__title',
-          // { 'card__title--done': doneAt },
+          { 'card__title--done': cardDone},
         )}
-      />
+      >
+        {title}
+      </span>
     </div>
   );
 };
@@ -47,6 +50,7 @@ Card.propTypes = {
     dragHandleProps: PropTypes.object,
   }),
   cardId: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
 };
 
 export default React.memo(Card);

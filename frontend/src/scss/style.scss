@@ -1,6 +1,12 @@
+@import "./colors.scss";
+
 html {
   font-size: 16px;
   line-height: 16px;
+}
+
+body {
+  margin: 0;
 }
 
 html, body, #root {
@@ -8,11 +14,6 @@ html, body, #root {
   height: 100%;
 }
 
-.board {
-  display: flex;
-  justify-content: space-evenly;
-  
-}
-
 @import "./card.scss";
 @import "./column.scss";
+@import "./board.scss";

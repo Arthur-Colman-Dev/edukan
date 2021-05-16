@@ -12,6 +12,10 @@ import {
   MOVE_CARD
 } from 'actionTypes';
 
+import {
+  getColumnCards
+} from 'selectors'
+
 const columns = [
   {
     id: 1,
@@ -35,7 +39,7 @@ const Board = (props) => {
   const dispatch = useDispatch();
 
   const onDragEnd = ({ draggableId, source, destination }) => {
-    if(destination && source.droppableId !== destination.droppableId) {
+    if (destination && source.droppableId !== destination.droppableId) {
       dispatch({
         type: MOVE_CARD,
         nextColumn: destination.droppableId,
@@ -46,41 +50,45 @@ const Board = (props) => {
 
   return (
     <div className='board'>
-      <DragDropContext onDragEnd={onDragEnd}>
-        {
-          columns.map((column) => {
-            const {
-              id: columnId,
-              name,
-              resolveStatus
-            } = column
+      <div className='board__container'>
+        <DragDropContext onDragEnd={onDragEnd}>
+          {
+            columns.map((column) => {
+              const {
+                id: columnId,
+                name,
+                resolveStatus
+              } = column
 
-            return (
-              <Droppable
-                key={columnId.toString()}
-                droppableId={columnId.toString()}
-              >
-                {
-                  (providedColumn) => (
-                    <Column
-                      column={{
-                        id: columnId,
-                        name,
-                        resolveStatus,
-                      }}
-                      providedColumn={providedColumn}
-                      innerRef={(ref) => {
-                        providedColumn.innerRef(ref);
-                      }}
-                      itemCount={1}
-                      {...providedColumn.droppableProps}
-                    />
-                  )}
-              </Droppable>
-            )
-          })
-        }
-      </DragDropContext>
+              const columnCardsCount = useSelector(getColumnCards)[columnId].length
+
+              return (
+                <Droppable
+                  key={columnId.toString()}
+                  droppableId={columnId.toString()}
+                >
+                  {
+                    (providedColumn) => (
+                      <Column
+                        column={{
+                          id: columnId,
+                          name,
+                          resolveStatus,
+                        }}
+                        providedColumn={providedColumn}
+                        innerRef={(ref) => {
+                          providedColumn.innerRef(ref);
+                        }}
+                        itemCount={columnCardsCount}
+                        {...providedColumn.droppableProps}
+                      />
+                    )}
+                </Droppable>
+              )
+            })
+          }
+        </DragDropContext>
+      </div>
     </div >
   )
 }
