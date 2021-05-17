@@ -8,15 +8,15 @@ export const getColumnCards = createSelector(
     let firstColumn = [];
     let secondColumn = [];
     let thirdColumn = [];
-    Object.values(cards).map((card) => {
-      switch(card.column) {
-        case '1':
+    cards.map((card) => {
+      switch(card.status) {
+        case 'TODO':
           firstColumn.push(card)
           break;
-        case '2':
+        case 'DOING':
           secondColumn.push(card)
           break;
-        case '3':
+        case 'DONE':
           thirdColumn.push(card)
           break;
         default:

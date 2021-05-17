@@ -4,15 +4,22 @@ import {
   call,
 } from 'redux-saga/effects';
 
-import { testSaga } from './testSaga'
 import {
-  updateCardStatus
+  updateCardStatus,
+  getStudentCards,
 } from './cardSaga'
+
+import {
+  getCurrentUser,
+  createNewStudent,
+} from './studentSaga'
 
 export default function* rootSaga() {
   const sagas = [
-    testSaga,
     updateCardStatus,
+    getStudentCards,
+    getCurrentUser,
+    createNewStudent,
   ]
 
   yield all(sagas.map((saga) => spawn(function* () {

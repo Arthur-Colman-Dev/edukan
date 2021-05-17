@@ -1,0 +1,1 @@
+export const CREATE_NEW_STUDENT = 'CREATE_NEW_STUDENT';

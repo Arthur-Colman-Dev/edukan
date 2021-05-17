@@ -46,7 +46,7 @@ const Board = (props) => {
 
       dispatch({
         type: MOVE_CARD,
-        nextStatus: status[destination.droppableId],
+        nextStatus: status[destination.droppableId - 1],
         cardId: parseInt(draggableId)
       })
     }
@@ -59,7 +59,6 @@ const Board = (props) => {
         <GoogleLogin />
       </div>
       <div className='board__container'>
-        <GoogleLogin />
         <DragDropContext onDragEnd={onDragEnd}>
           {
             columns.map((column) => {

@@ -55,7 +55,7 @@ const GoogleLogin = (props) => {
     : auth.isSignedIn.get()
       ? (
         <> 
-          <span>{`${auth.currentUser.get().getBasicProfile().getName()}`}</span>
+          <span className="student__name">{`${auth.currentUser.get().getBasicProfile().getName()}`}</span>
           <button onClick={logout} className="button">
             <img src={googleIcon} alt="google login" className="icon"></img>
             <span className="buttonText">Logout</span>

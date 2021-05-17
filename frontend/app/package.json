@@ -31,12 +31,11 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
-    "axios": "^0.21.1",
+    "@apollo/client": "^3.3.18",
     "classnames": "^2.3.1",
     "dotenv": "^9.0.2",
     "graphql": "^15.5.0",
-    "graphql-tag": "^2.12.4",
-    "immutability-helper": "^3.1.1",
+    "immer": "^9.0.2",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-beautiful-dnd": "^13.1.0",

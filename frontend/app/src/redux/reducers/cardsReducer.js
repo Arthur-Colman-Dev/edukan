@@ -1,44 +1,42 @@
-import update from 'immutability-helper';
+import produce from 'immer';
 
 import {
-  MOVE_CARD
+  MOVE_CARD,
+  FETCH_CARDS_SUCCEEDED,
 } from 'actionTypes';
 
 const defaultState = {
-  items: {
-    3: {
-      id: 3,
-      column: '1',
-      title: 'Entregar relatório',
-    },
-    2 : {
-      id: 2,
-      column: '3',
-      title: 'Finalizar aplicativo'
-    },
-  }
+  items: []
 }
 
-const cardsReducer = (state = defaultState, action = {}) => {
-  let nextColumn, cardId;
+const cardsReducer = produce((draft = defaultState, action = {}) => {
+  let nextStatus, cardId, cardsArray, cardIndex;
   
   switch(action.type) {
     case MOVE_CARD:
       ({
         cardId,
-        nextColumn
+        nextStatus
       } = action)
 
-      return update(state, {
-        items: {
-          [cardId]: {
-            column: { $set: nextColumn }
+      cardIndex = draft.items.findIndex(card => card.id === cardId)
+
+      draft.items[cardIndex].status = nextStatus
+      return draft
+    case FETCH_CARDS_SUCCEEDED: 
+      ({
+        data: {
+          allAssignments: {
+            nodes: cardsArray
           }
         }
-      })
+      } = action)
+
+      draft.items = cardsArray
+      return draft
     default:
-      return state
+      return draft
   }
-}
+})
 
 export default cardsReducer

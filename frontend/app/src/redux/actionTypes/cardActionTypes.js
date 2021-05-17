@@ -1,1 +1,5 @@
-export const MOVE_CARD = 'MOVE_CARD'
+export const MOVE_CARD = 'MOVE_CARD';
+export const CREATE_CARD = 'CREATE_CARD';
+
+export const FETCH_CARDS_REQUESTED = 'FETCH_CARDS_REQUESTED';
+export const FETCH_CARDS_SUCCEEDED = 'FETCH_CARDS_SUCCEEDED';
