@@ -7,15 +7,14 @@ import classnames from 'classnames';
 import {
   Column,
   GoogleLogin,
-  GoogleLogout,
 } from 'components';
 
 import {
-  MOVE_CARD
+  MOVE_CARD,
 } from 'actionTypes';
 
 import {
-  getColumnCards
+  getColumnCards,
 } from 'selectors'
 
 const columns = [
@@ -52,9 +51,8 @@ const Board = (props) => {
 
   return (
     <div className='board'>
-      <GoogleLogin />
-      <GoogleLogout />
       <div className='board__container'>
+        <GoogleLogin />
         <DragDropContext onDragEnd={onDragEnd}>
           {
             columns.map((column) => {
