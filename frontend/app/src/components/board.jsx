@@ -47,7 +47,7 @@ const Board = (props) => {
       dispatch({
         type: MOVE_CARD,
         nextStatus: status[destination.droppableId],
-        cardId: draggableId
+        cardId: parseInt(draggableId)
       })
     }
   }
