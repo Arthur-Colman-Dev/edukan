@@ -2,6 +2,8 @@ import React from 'react';
 import { useGoogleLogin } from 'react-google-login';
 import { useDispatch, useSelector } from 'react-redux';
 
+import googleIcon from '../assets/google.png'
+
 // refresh token
 import { refreshTokenSetup } from '../utils/refreshToken';
 
@@ -35,8 +37,7 @@ const GoogleLogin = (props) => {
 
   return (
     <button onClick={signIn} className="button">
-      <img src="icons/google.svg" alt="google login" className="icon"></img>
-
+      <img src={googleIcon} alt="google login" className="icon" />
       <span className="buttonText">Login via Google</span>
     </button>
   );

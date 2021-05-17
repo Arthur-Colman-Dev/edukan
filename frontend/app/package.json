@@ -31,7 +31,10 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "classnames": "^2.3.1",
+    "graphql": "^15.5.0",
+    "graphql-tag": "^2.12.4",
     "immutability-helper": "^3.1.1",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",

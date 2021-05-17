@@ -6,8 +6,8 @@ import {
 
 const defaultState = {
   items: {
-    1: {
-      id: 1,
+    3: {
+      id: 3,
       column: '1',
       title: 'Entregar relatório',
     },

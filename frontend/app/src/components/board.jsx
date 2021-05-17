@@ -3,6 +3,7 @@ import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import classnames from 'classnames';
+import Logo from '../assets/logo.png'
 
 import {
   Column,
@@ -42,9 +43,11 @@ const Board = (props) => {
 
   const onDragEnd = ({ draggableId, source, destination }) => {
     if (destination && source.droppableId !== destination.droppableId) {
+      let status = ['TODO', 'DOING', 'DONE']
+
       dispatch({
         type: MOVE_CARD,
-        nextColumn: destination.droppableId,
+        nextStatus: status[destination.droppableId],
         cardId: draggableId
       })
     }
@@ -52,8 +55,11 @@ const Board = (props) => {
 
   return (
     <div className='board'>
-      <GoogleLogin />
-      <GoogleLogout />
+      <img className='logo' src={Logo} />
+      <div className="buttons__container">
+        <GoogleLogin />
+        <GoogleLogout />
+      </div>
       <div className='board__container'>
         <DragDropContext onDragEnd={onDragEnd}>
           {
