@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.3.18",
+    "axios": "^0.21.1",
     "classnames": "^2.3.1",
     "dotenv": "^9.0.2",
     "graphql": "^15.5.0",

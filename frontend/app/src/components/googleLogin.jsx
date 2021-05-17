@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useGoogleApi } from 'react-gapi';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -12,32 +12,58 @@ import {
 const GoogleLogin = (props) => {
   const dispatch = useDispatch();
 
-  const scopePrefix = 'https://www.googleapis.com/auth/classroom.';
-  const scopes = ['courses.readonly','course-work.readonly','student-submissions.me.readonly'];
+
   const gapi = useGoogleApi({
-    scopes: scopes.map((scope) => `${scopePrefix}${scope}`),
+    scopes: ['profile'],
   });
 
-  const auth = gapi && gapi.auth2.getAuthInstance();
+  // const auth = gapi && gapi.auth2.getAuthInstance();
 
-  const login = async () => {
-    auth.signIn();
-    await new Promise((resolve) => { 
-      auth.isSignedIn.listen((signedIn) => {
-        if (signedIn) {
-          const currentUser = auth.currentUser.get();
-          const user = {
-            id: currentUser.getBasicProfile().getId(),
-            access_token: currentUser.getAuthResponse(true).access_token, 
-          }
-          dispatch({ type: LOGIN_SUCCEEDED, user });
+  const checkIfUserIsLoggedIn = (resolve) => {
+    const auth = gapi && gapi.auth2.getAuthInstance();
+    auth.isSignedIn.listen((signedIn) => {
+      if (signedIn) {
+        const currentUser = auth.currentUser.get();
+        const user = {
+          id: currentUser.getBasicProfile().getId(),
+          accessToken: currentUser.getAuthResponse(true).access_token, 
+        }
+        dispatch({ type: LOGIN_SUCCEEDED, user });
+        if (resolve) {
           resolve();
         }
-      });
+      }
+    });
+  }
+
+  // const [isMounted, setIsMounted] = useState(false);
+
+  // useEffect(() => {
+  //   let mounted = true;
+  //   console.log("IS MOUNTED",mounted);
+  //   if (mounted) {
+  //     checkIfUserIsLoggedIn(false);
+  //   }
+  //   return () => mounted = false;
+  // }, []);
+
+  // useEffect(() => {
+  //   if (isMounted) {
+  //     checkIfUserIsLoggedIn(false);
+  //   }
+  //   return () => setIsMounted(false);
+  // }, [isMounted]);
+
+  const login = async () => {
+    const auth = gapi && gapi.auth2.getAuthInstance();
+    auth.signIn();
+    await new Promise((resolve) => { 
+      checkIfUserIsLoggedIn(resolve);
     });
   }
 
   const logout = async () => {
+    const auth = gapi && gapi.auth2.getAuthInstance();
     auth.signOut();
     await new Promise((resolve) => { 
       auth.isSignedIn.listen((signedIn) => {
@@ -48,6 +74,8 @@ const GoogleLogin = (props) => {
       });
     });
   }
+
+  const auth = gapi && gapi.auth2.getAuthInstance();
 
   return (
     !auth 

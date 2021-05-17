@@ -7,12 +7,18 @@ import {
 import {
   updateCardStatus,
   getStudentCards,
-} from './cardSaga'
+} from './cardSaga';
 
 import {
   getCurrentUser,
   createNewStudent,
-} from './studentSaga'
+} from './studentSaga';
+
+import {
+  getCourses,
+  watchGetAssignments,
+  watchGetSubmissions,
+} from './classroomSaga';
 
 export default function* rootSaga() {
   const sagas = [
@@ -20,6 +26,9 @@ export default function* rootSaga() {
     getStudentCards,
     getCurrentUser,
     createNewStudent,
+    getCourses,
+    watchGetAssignments,
+    watchGetSubmissions,
   ]
 
   yield all(sagas.map((saga) => spawn(function* () {
