@@ -51,20 +51,20 @@ const GoogleLogin = (props) => {
 
   return (
     !auth 
-    ? <span>Carregando...</span>
+    ? null
     : auth.isSignedIn.get()
       ? (
         <> 
           <span>{`${auth.currentUser.get().getBasicProfile().getName()}`}</span>
           <button onClick={logout} className="button">
-            <img src="icons/google.svg" alt="google login" className="icon"></img>
+            <img src={googleIcon} alt="google login" className="icon"></img>
             <span className="buttonText">Logout</span>
           </button>
         </>
       )
       : ( 
         <button onClick={login} className="button">
-          <img src="icons/google.svg" alt="google login" className="icon"></img>
+          <img src={googleIcon} alt="google login" className="icon"></img>
           <span className="buttonText">Login via Google</span>
         </button>
       )
