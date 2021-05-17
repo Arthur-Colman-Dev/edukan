@@ -1,45 +1,73 @@
 import React from 'react';
-import { useGoogleLogin } from 'react-google-login';
+import { useGoogleApi } from 'react-gapi';
 import { useDispatch, useSelector } from 'react-redux';
 
 import googleIcon from '../assets/google.png'
 
-// refresh token
-import { refreshTokenSetup } from '../utils/refreshToken';
-
-const clientId =
-  '244033098309-57t637lqes8nh18eh9ljprkv29ovonpb.apps.googleusercontent.com';
+import {
+  LOGIN_SUCCEEDED,
+  LOGOUT_SUCCEEDED,
+} from 'actionTypes';
 
 const GoogleLogin = (props) => {
   const dispatch = useDispatch();
 
-  const onSuccess = (res) => {
-    console.log('Login Success: currentUser:', res.profileObj);
-    dispatch({type: 'LOGIN_SUCCEEDED', res});
-    refreshTokenSetup(res);
-  };
-
-  const onFailure = (res) => {
-    console.log('Login failed: res:', res);
-  };
-
-  const { 
-    signIn, 
-  } = useGoogleLogin({
-    onSuccess,
-    onFailure,
-    clientId,
-    isSignedIn: true,
-    accessType: 'offline',
-    // responseType: 'code',
-    // prompt: 'consent',
+  const scopePrefix = 'https://www.googleapis.com/auth/classroom.';
+  const scopes = ['courses.readonly','course-work.readonly','student-submissions.me.readonly'];
+  const gapi = useGoogleApi({
+    scopes: scopes.map((scope) => `${scopePrefix}${scope}`),
   });
 
+  const auth = gapi && gapi.auth2.getAuthInstance();
+
+  const login = async () => {
+    auth.signIn();
+    await new Promise((resolve) => { 
+      auth.isSignedIn.listen((signedIn) => {
+        if (signedIn) {
+          const currentUser = auth.currentUser.get();
+          const user = {
+            id: currentUser.getBasicProfile().getId(),
+            access_token: currentUser.getAuthResponse(true).access_token, 
+          }
+          dispatch({ type: LOGIN_SUCCEEDED, user });
+          resolve();
+        }
+      });
+    });
+  }
+
+  const logout = async () => {
+    auth.signOut();
+    await new Promise((resolve) => { 
+      auth.isSignedIn.listen((signedIn) => {
+        if (!signedIn) {
+          dispatch({ type: LOGOUT_SUCCEEDED });
+          resolve();
+        }
+      });
+    });
+  }
+
   return (
-    <button onClick={signIn} className="button">
-      <img src={googleIcon} alt="google login" className="icon" />
-      <span className="buttonText">Login via Google</span>
-    </button>
+    !auth 
+    ? <span>Carregando...</span>
+    : auth.isSignedIn.get()
+      ? (
+        <> 
+          <span>{`${auth.currentUser.get().getBasicProfile().getName()}`}</span>
+          <button onClick={logout} className="button">
+            <img src="icons/google.svg" alt="google login" className="icon"></img>
+            <span className="buttonText">Logout</span>
+          </button>
+        </>
+      )
+      : ( 
+        <button onClick={login} className="button">
+          <img src="icons/google.svg" alt="google login" className="icon"></img>
+          <span className="buttonText">Login via Google</span>
+        </button>
+      )
   );
 }
 

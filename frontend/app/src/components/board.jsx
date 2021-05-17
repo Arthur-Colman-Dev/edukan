@@ -8,15 +8,14 @@ import Logo from '../assets/logo.png'
 import {
   Column,
   GoogleLogin,
-  GoogleLogout,
 } from 'components';
 
 import {
-  MOVE_CARD
+  MOVE_CARD,
 } from 'actionTypes';
 
 import {
-  getColumnCards
+  getColumnCards,
 } from 'selectors'
 
 const columns = [
@@ -55,12 +54,16 @@ const Board = (props) => {
 
   return (
     <div className='board'>
+<<<<<<< HEAD
       <img className='logo' src={Logo} />
       <div className="buttons__container">
         <GoogleLogin />
         <GoogleLogout />
       </div>
+=======
+>>>>>>> access-the-google-api
       <div className='board__container'>
+        <GoogleLogin />
         <DragDropContext onDragEnd={onDragEnd}>
           {
             columns.map((column) => {
