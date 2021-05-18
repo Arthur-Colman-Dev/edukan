@@ -13,8 +13,10 @@ const GoogleLogin = (props) => {
   const dispatch = useDispatch();
 
 
+  const scopePrefix = 'https://www.googleapis.com/auth/classroom.';
+  const scopes = ['courses.readonly','course-work.readonly','student-submissions.me.readonly'];
   const gapi = useGoogleApi({
-    scopes: ['profile'],
+    scopes: scopes.map((scope) => `${scopePrefix}${scope}`),
   });
 
   const checkIfUserIsLoggedIn = (resolve) => {

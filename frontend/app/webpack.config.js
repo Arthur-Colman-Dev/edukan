@@ -76,6 +76,7 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: __dirname + '/src/index.html',
+            favicon: path.join(__dirname, 'src/assets/logo.png'),
             filename: 'index.html',
             inject: 'body'
         }),
