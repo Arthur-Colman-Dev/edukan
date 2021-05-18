@@ -7,6 +7,8 @@ import {
 import {
   updateCardStatus,
   getStudentCards,
+  watchLastFetchSubmission,
+  watchCreateCard,
 } from './cardSaga';
 
 import {
@@ -29,6 +31,8 @@ export default function* rootSaga() {
     getCourses,
     watchGetAssignments,
     watchGetSubmissions,
+    watchLastFetchSubmission,
+    watchCreateCard,
   ]
 
   yield all(sagas.map((saga) => spawn(function* () {

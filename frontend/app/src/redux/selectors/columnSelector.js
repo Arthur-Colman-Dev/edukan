@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 
+export const getLoadingState = (state) => state.cards.loading
 export const getCards = (state) => state.cards.items
 
 export const getColumnCards = createSelector(

@@ -8,6 +8,7 @@
 .student__name {
   margin-right: 1rem;
   font-size: 1rem;
+  color: $gray900;
 }
 
 .button {
@@ -15,8 +16,15 @@
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
-  padding: 0.25rem 0.5rem;
+  padding: 0.5rem;
   color: $gray900;
+  border: 1px solid $gray400;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: $gray400;
+    color: $white;
+  }
   
   img {
     width: 1.5rem;

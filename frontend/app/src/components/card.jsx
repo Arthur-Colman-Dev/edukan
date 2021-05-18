@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import classnames from 'classnames';
+import moment from 'moment'
 
 const Card = (props) => {
   const {
@@ -9,6 +10,9 @@ const Card = (props) => {
     provided,
     title,
     cardDone,
+    courseName,
+    url,
+    dueDate,
   } = props;
 
   const dispatch = useDispatch();
@@ -21,18 +25,24 @@ const Card = (props) => {
         'card',
       )}
       ref={innerRef}
+      onClick={() => window.open(url)}
       {...provided.draggableProps}
       {...provided.dragHandleProps}
     >
+      <span className={classnames(
+        'card__due-date',
+        {'card__due-date--late': moment(moment(dueDate)).isAfter(moment()) === true},
+        {'card__due-date--done': moment(moment(dueDate)).isAfter(moment()) === false && cardDone}
+      )}>{moment(dueDate).format('DD/MM/YY')}</span>
       <span
         className={classnames(
-          'body1--regular',
           'card__title',
           { 'card__title--done': cardDone},
         )}
       >
         {title}
       </span>
+      <span className="card__course">{courseName}</span>
     </div>
   );
 };
@@ -49,7 +59,10 @@ Card.propTypes = {
     draggableProps: PropTypes.object.isRequired,
     dragHandleProps: PropTypes.object,
   }),
-  cardId: PropTypes.number.isRequired,
+  cardId: PropTypes.string.isRequired,
+  courseName: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+  dueDate: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
 };
 

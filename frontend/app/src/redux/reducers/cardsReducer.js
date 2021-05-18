@@ -2,37 +2,39 @@ import produce from 'immer';
 
 import {
   MOVE_CARD,
-  FETCH_CARDS_SUCCEEDED,
+  FETCH_CARDS,
+  LOGIN_SUCCEEDED,
 } from 'actionTypes';
 
 const defaultState = {
-  items: []
+  items: [],
+  loading: false,
 }
 
 const cardsReducer = produce((draft = defaultState, action = {}) => {
-  let nextStatus, cardId, cardsArray, cardIndex;
+  let nextStatus, cardId, cards, cardIndex;
   
   switch(action.type) {
+    case LOGIN_SUCCEEDED:
+      draft.loading = true
+      return draft
     case MOVE_CARD:
       ({
         cardId,
         nextStatus
       } = action)
 
-      cardIndex = draft.items.findIndex(card => card.id === cardId)
+      cardIndex = draft.items.findIndex(card => card.courseWorkId === cardId)
 
       draft.items[cardIndex].status = nextStatus
       return draft
-    case FETCH_CARDS_SUCCEEDED: 
+    case FETCH_CARDS: 
       ({
-        data: {
-          allAssignments: {
-            nodes: cardsArray
-          }
-        }
+        cards
       } = action)
 
-      draft.items = cardsArray
+      draft.items = cards
+      draft.loading = false
       return draft
     default:
       return draft

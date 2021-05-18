@@ -2,60 +2,90 @@ import {
   take,
   put,
   call,
+  all,
+  takeLatest,
+  delay,
+  select,
+  takeEvery,
 } from 'redux-saga/effects';
 
 import {
+  getAllCardsWithStatus,
+  getCardsToInsert,
+} from 'selectors'
+
+import {
   MOVE_CARD,
-  LOGIN_SUCCEEDED,
-  FETCH_CARDS_SUCCEEDED,
-  FETCH_CARDS_REQUESTED,
+  GET_DATABASE_CARDS_SUCCEEDED,
+  GET_DATABASE_CARDS_REQUESTED,
+  GET_SUBMISSIONS_SUCCEEDED,
+  CREATE_CARD_REQUESTED,
+  FETCH_CARDS,
 } from 'actionTypes';
 
 import client from '../../utils/client'
 
 import { gql } from '@apollo/client';
 
-export function* createCard() {
-  while (true) {
-    const {
-      courseId,
-      courseWorkId,
-      studentId,
-      nextStatus, // TODO DOING DONE
-    } = yield take(CREATE_CARD)
+export function* watchLastFetchSubmission() {
+  yield takeLatest(GET_SUBMISSIONS_SUCCEEDED, insertAndSaveCards)
+}
+
+function* insertAndSaveCards(action) {
+  yield delay(1000)
+  const cardsToInsert = yield select((state) => getCardsToInsert(state))
+  const cardsToBeSaved = yield select((state) => getAllCardsWithStatus(state))
+  try {
+    yield all(cardsToInsert.map((card) => put({ type: CREATE_CARD_REQUESTED, ...card })))
+    yield put({ type: FETCH_CARDS, cards: cardsToBeSaved })
+  } catch (e) {
+    console.log('ERROR', e)
   }
+}
+
+export function* watchCreateCard() {
+  yield takeEvery(CREATE_CARD_REQUESTED, createCard)
+}
+
+function* createCard(action) {
+  const {
+    courseId,
+    courseWorkId,
+    userId: studentId,
+    status,
+  } = action
 
   try {
     const {
       data
     } = yield call([client, 'mutate'], {
-      query: gql`
-        mutation createCards($courseId: String!, $courseWorkId: $String!, $studentId: String!, $nextStatus: AssignmentStatus!){
-          createAssignment(
-            input: {
-              assignment: {
-                courseId: $courseId,
-                courseWorkId: $courseWorkId,
-                studentId: $studentId,
-                status: "$nextStatus,
+      mutation: gql`
+          mutation createCards($courseId: String!, $courseWorkId: String!, $studentId: String!, $status: AssignmentStatus!){
+            createAssignment(
+              input: {
+                assignment: {
+                  courseId: $courseId,
+                  courseWorkId: $courseWorkId,
+                  studentId: $studentId,
+                  status: $status,
+                }
+              }
+            ) {
+              assignment {
+                id
+                status
               }
             }
-          ) {
-            assignment {
-              id
-              status
-            }
           }
-        }
-      `,
+        `,
       variables: {
         courseId,
         courseWorkId,
         studentId,
-        nextStatus,
+        status,
       }
     })
-  } catch(e) {
+  } catch (e) {
     console.log('ERROR ON CARD CREATE', e)
   }
 }
@@ -71,10 +101,10 @@ export function* updateCardStatus() {
       const {
         data
       } = yield call([client, 'mutate'], {
-        mutation: gql`mutation updateCardStatus($cardId: Int!, $nextStatus: AssignmentStatus!){
-          updateAssignmentById (
+        mutation: gql`mutation updateCardStatus($cardId: String!, $nextStatus: AssignmentStatus!){
+          updateAssignmentByCourseWorkId (
             input: {
-              id: $cardId,
+              courseWorkId: $cardId,
               assignmentPatch: {
                 status: $nextStatus
               }
@@ -100,7 +130,7 @@ export function* getStudentCards() {
   while (true) {
     const {
       studentId
-    } = yield take(FETCH_CARDS_REQUESTED);
+    } = yield take(GET_DATABASE_CARDS_REQUESTED);
 
     try {
       const { data } = yield call([client, 'query'], {
@@ -126,7 +156,7 @@ export function* getStudentCards() {
         }
       })
 
-      yield put({type:FETCH_CARDS_SUCCEEDED, data})
+      yield put({ type: GET_DATABASE_CARDS_SUCCEEDED, data })
     } catch (e) {
       console.log('ERROR ON CARDS FETCH', e)
     }

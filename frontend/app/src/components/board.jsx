@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import classnames from 'classnames';
 import Logo from '../assets/logo.png'
+import ReactLoading from 'react-loading';
 
 import {
   Column,
@@ -16,6 +17,7 @@ import {
 
 import {
   getColumnCards,
+  getLoadingState
 } from 'selectors'
 
 const columns = [
@@ -40,6 +42,9 @@ const Board = (props) => {
 
   const dispatch = useDispatch();
 
+  const columnCards = useSelector(getColumnCards)
+  const isLoading = useSelector(getLoadingState)
+
   const onDragEnd = ({ draggableId, source, destination }) => {
     if (destination && source.droppableId !== destination.droppableId) {
       let status = ['TODO', 'DOING', 'DONE']
@@ -47,55 +52,62 @@ const Board = (props) => {
       dispatch({
         type: MOVE_CARD,
         nextStatus: status[destination.droppableId - 1],
-        cardId: parseInt(draggableId)
+        cardId: draggableId
       })
     }
   }
 
   return (
     <div className='board'>
-      <img className='logo' src={Logo} />
-      <div className="buttons__container">
-        <GoogleLogin />
+      <div className='board__header'>
+        <img className='logo' src={Logo} />
+        <div className="buttons__container">
+          <GoogleLogin />
+        </div>
       </div>
       <div className='board__container'>
-        <DragDropContext onDragEnd={onDragEnd}>
-          {
-            columns.map((column) => {
-              const {
-                id: columnId,
-                name,
-                resolveStatus
-              } = column
+        {
+          isLoading ?
+            <ReactLoading type='bars' color='#BFE5CA' height={'18%'} width={'18%'} className='loader' />
+            :
+            (<DragDropContext onDragEnd={onDragEnd}>
+              {
+                columns.map((column) => {
+                  const {
+                    id: columnId,
+                    name,
+                    resolveStatus
+                  } = column
 
-              const columnCardsCount = useSelector(getColumnCards)[columnId].length
+                  const columnCardsCount = columnCards[columnId].length
 
-              return (
-                <Droppable
-                  key={columnId.toString()}
-                  droppableId={columnId.toString()}
-                >
-                  {
-                    (providedColumn) => (
-                      <Column
-                        column={{
-                          id: columnId,
-                          name,
-                          resolveStatus,
-                        }}
-                        providedColumn={providedColumn}
-                        innerRef={(ref) => {
-                          providedColumn.innerRef(ref);
-                        }}
-                        itemCount={columnCardsCount}
-                        {...providedColumn.droppableProps}
-                      />
-                    )}
-                </Droppable>
-              )
-            })
-          }
-        </DragDropContext>
+                  return (
+                    <Droppable
+                      key={columnId.toString()}
+                      droppableId={columnId.toString()}
+                    >
+                      {
+                        (providedColumn) => (
+                          <Column
+                            column={{
+                              id: columnId,
+                              name,
+                              resolveStatus,
+                            }}
+                            providedColumn={providedColumn}
+                            innerRef={(ref) => {
+                              providedColumn.innerRef(ref);
+                            }}
+                            itemCount={columnCardsCount}
+                            {...providedColumn.droppableProps}
+                          />
+                        )}
+                    </Droppable>
+                  )
+                })
+              }
+            </DragDropContext>)
+        }
       </div>
     </div >
   )

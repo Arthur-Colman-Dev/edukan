@@ -41,7 +41,7 @@ const Column = (props) => {
           'column__info__background',
         )}
       >
-        <div className="label14--regular column__info">
+        <div className="column__info">
           <span className="column__title">
             {name}
           </span>
@@ -50,20 +50,23 @@ const Column = (props) => {
       </div>
       <div className="column__data">
         {
-          columnCards.map(({id, title}, cardIndex) => (
+          columnCards.map(({courseWorkId, title, courseName, dueDate, url}, cardIndex) => (
             <Draggable
-              key={id.toString()}
-              draggableId={id.toString()}
+              key={courseWorkId}
+              draggableId={courseWorkId}
               index={cardIndex}
               disableInteractiveElementBlocking
             >
               {
                 (providedCard) => (
                   <Card
-                    cardId={id}
+                    url={url}
+                    cardId={courseWorkId}
                     innerRef={providedCard.innerRef}
                     provided={providedCard}
                     title={title}
+                    courseName={courseName}
+                    dueDate={dueDate}
                     cardDone={columnId === 3}
                   />
                 )

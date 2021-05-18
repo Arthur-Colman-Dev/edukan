@@ -8,7 +8,7 @@ import {
   GET_CURRENT_STUDENT,
   LOGIN_SUCCEEDED,
   CREATE_NEW_STUDENT,
-  FETCH_CARDS_REQUESTED,
+  GET_DATABASE_CARDS_REQUESTED,
 } from 'actionTypes';
 
 import client from '../../utils/client'
@@ -38,7 +38,7 @@ export function* getCurrentUser() {
     })
 
     if(data.studentByGoogleClassroomId !== null) {
-      yield put({type: FETCH_CARDS_REQUESTED, studentId})
+      yield put({type: GET_DATABASE_CARDS_REQUESTED, studentId})
     } else {
       yield put({type: CREATE_NEW_STUDENT, studentId})
     }

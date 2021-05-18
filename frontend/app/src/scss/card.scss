@@ -5,8 +5,12 @@
   background-color: $white;
   min-height: 8.125rem;
   margin-top: 0.5rem;
-  padding: 0.5rem;
-  cursor: pointer;
+  padding: 1rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer !important; 
+  color: $gray900;
 
   &:hover {
     transform: translateY(-2px);
@@ -28,10 +32,34 @@
   text-overflow: ellipsis;
   display: block;
   margin: 0.5rem 0;
-  color: $gray900;
 }
 
 .card__title--done {
   color: $gray500;
   text-decoration: line-through;
+}
+
+.card__due-date {
+  max-width: 4rem;
+  padding: 0.25rem 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  background-color: $yellow2;
+  border: 1px solid $yellow1;
+}
+
+.card__due-date--late {
+  background-color: $coral3;
+  border: 1px solid $coral1;
+}
+
+.card__due-date--done {
+  background-color: $green3;
+  border: 1px solid $green1;
+}
+
+.card__course {
+  color: $gray600;
 }

@@ -1,18 +1,30 @@
 .board {
   display: flex;
   flex-direction: column;
-  padding: 4.25rem;
+  padding: 1rem 4.25rem;
+}
+
+.board__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
 }
 
 .board__container {
   display: flex;
   justify-content: space-between;
-  min-height: 44rem;
+  min-height: 48rem;
 }
 
 .logo {
   width: 7rem;
   height: 7rem;
-  position: absolute;
-  top: 1%;
+  margin-bottom: 0.5rem;
+}
+
+.loader {
+  align-self: center;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
