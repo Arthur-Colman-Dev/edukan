@@ -10,8 +10,15 @@ const defaultState = {
   courses: []
 }
 
+const convertDate = (dueDate = {}, dueTime = {}) => {
+  const { day, month, year } = dueDate;
+  const { hours, minutes } = dueTime;
+
+  return `${year}-${month}-${day} ${hours || '00'}:${minutes || '00'}:00`;
+}
+
 const classroomReducer = produce((draft = defaultState, action = {}) => {
-  let courses, assignments, courseId;
+  let courses, assignments, courseId, assignmentId, submissions;
   
   switch(action.type) {
     case GET_COURSES_SUCCEEDED: 
@@ -51,10 +58,7 @@ const classroomReducer = produce((draft = defaultState, action = {}) => {
           courseId,
           url: alternateLink,
           title,
-          dueDate: {
-            ...dueDate,
-            ...dueTime
-          }
+          dueDate: convertDate(dueDate,dueTime)
         }
       });
 
@@ -69,6 +73,50 @@ const classroomReducer = produce((draft = defaultState, action = {}) => {
       return draft;
 
     case GET_SUBMISSIONS_SUCCEEDED:
+      ({
+        courseId,
+        assignmentId,
+        submissions,
+      } = action);
+
+      submissions = submissions.map((submission) => {
+        const {
+          id,
+          courseId,
+          courseWorkId: assignmentId,
+          userId,
+          state: classroomState,
+        } = submission;
+
+        let status = 'unknown';
+        if (classroomState === "TURNED_IN") {
+          status = 'done';
+        }
+
+        return {
+          id,
+          courseId,
+          assignmentId,
+          userId,
+          classroomState,
+          status,
+        };
+      });
+
+      draft.courses = draft.courses.map((course) => {
+        let newCourse = course;
+        if (newCourse.id === courseId) {
+          newCourse.assignments = newCourse.assignments.map((assignment) => {
+            let newAssignment = assignment;
+            if (newAssignment.id === assignmentId) {
+              newAssignment.submissions = submissions;
+            }
+            return newAssignment;
+          });
+        }
+        return newCourse;
+      });
+
       return draft
 
     default:

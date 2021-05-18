@@ -95,18 +95,17 @@ function* getSubmissions(action) {
   } = action;
 
   try {
-    const data = yield call(axios, axiosConfig({ 
+    const {
+      data: {
+        studentSubmissions: submissions,
+      }
+    } = yield call(axios, axiosConfig({ 
       endpoint: `courses/${courseId}/courseWork/${assignmentId}/studentSubmissions`, 
       accessToken, 
       filterByUser: true 
     }));
 
-    console.log("SUBMISSIONS DATA", data);
-    // if (courseWork.length > 0) {
-    //   yield all(courseWork.map((cw) => put({type: GET_ASSIGNMENT_REQUESTED, courseWork: cw, accessToken})));
-    // }
-
-    // yield put({type: GET_ASSIGNMENTS_SUCCEEDED, courseId, courseWork});
+    yield put({type: GET_SUBMISSIONS_SUCCEEDED, courseId, assignmentId, submissions});
 
   } catch(e) {
     console.log('ERROR FETCHING COURSEWORK', e)

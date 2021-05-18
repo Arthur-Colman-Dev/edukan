@@ -21,30 +21,30 @@ export function* getCurrentUser() {
     }
   } = yield take(LOGIN_SUCCEEDED)
 
-  // try {
-  //   const {
-  //     data
-  //   } = yield call([client, 'query'], {
-  //     query: gql`
-  //       query getCurrentUser($studentId: String!) {
-  //         studentByGoogleClassroomId(googleClassroomId: $studentId) {
-  //           googleClassroomId: googleClassroomId
-  //         }
-  //       }
-  //     `,
-  //     variables: {
-  //       studentId
-  //     }
-  //   })
+  try {
+    const {
+      data
+    } = yield call([client, 'query'], {
+      query: gql`
+        query getCurrentUser($studentId: String!) {
+          studentByGoogleClassroomId(googleClassroomId: $studentId) {
+            googleClassroomId: googleClassroomId
+          }
+        }
+      `,
+      variables: {
+        studentId
+      }
+    })
 
-  //   if(data.studentByGoogleClassroomId !== null) {
-  //     yield put({type: FETCH_CARDS_REQUESTED, studentId})
-  //   } else {
-  //     yield put({type: CREATE_NEW_STUDENT, studentId})
-  //   }
-  // } catch(e) {
-  //   console.log('ERROR FETCHING STUDENT', e)
-  // }
+    if(data.studentByGoogleClassroomId !== null) {
+      yield put({type: FETCH_CARDS_REQUESTED, studentId})
+    } else {
+      yield put({type: CREATE_NEW_STUDENT, studentId})
+    }
+  } catch(e) {
+    console.log('ERROR FETCHING STUDENT', e)
+  }
 }
 
 export function* createNewStudent() {
