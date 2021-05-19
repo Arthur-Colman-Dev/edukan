@@ -28,8 +28,8 @@ const Card = (props) => {
     >
       <span className={classnames(
         'card__due-date',
-        {'card__due-date--late': moment(moment(dueDate)).isAfter(moment()) === true},
-        {'card__due-date--done': moment(moment(dueDate)).isAfter(moment()) === false && cardDone}
+        {'card__due-date--late': moment(dueDate).isBefore(moment())},
+        {'card__due-date--done': cardDone}
       )}>{moment(dueDate).format('DD/MM/YY') === 'Invalid date' ? 'Sem prazo' : moment(dueDate).format('DD/MM/YY')}</span>
       <span
         className={classnames(

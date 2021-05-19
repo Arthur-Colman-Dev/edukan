@@ -1,7 +1,5 @@
 FROM node:alpine
 
-WORKDIR /app
-
 RUN pwd
 RUN ls -al
 
