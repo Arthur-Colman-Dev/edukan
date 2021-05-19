@@ -4,7 +4,7 @@ Aplicação desenvolvida em React, GraphQL e Postgres, para a gestão em forma d
 
 Para executar a aplicação, faça o `git clone` do projeto e execute `docker-compose up` em sua pasta raiz (é necessário possuir [Docker](https://docs.docker.com/get-docker/) e [Docker Compose](https://docs.docker.com/compose/install/) instalados.)
 
-Uma descrição completa da aplicação pode ser acessada [aqui.](https://www.linkedin.com/in/arthur-colman/) Um vídeo da aplicação em funcionamento está disponível [aqui.](www.youtube.com)
+Uma descrição completa da aplicação pode ser acessada [aqui.](https://drive.google.com/file/d/1aYyujbnqTwcpWqZGwbYzE903ZyOLRMwg/view?usp=sharing) Um vídeo da aplicação em funcionamento está disponível [aqui.](https://drive.google.com/file/d/164LnMn0l--hq3ginFmq9TE5KK8LsGks6/view?usp=sharing)
 
 Este trabalho foi desenvolvido durante a disciplina Programação Avançada da Escola Politécnica da UFRJ, durante o período letivo de 2020.2.
 
