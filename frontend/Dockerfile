@@ -2,12 +2,22 @@ FROM node:alpine
 
 WORKDIR /app
 
-COPY ["app/package.json", "app/package-lock.json", "./app"]
-
-RUN npm install --silent
+RUN pwd
+RUN ls -al
 
 COPY . .
+# COPY ["./package.json", "/package-lock.json", "./"]
+
+RUN pwd
+RUN ls -al
+
+RUN pwd
+RUN npm install
+
+RUN pwd
+RUN ls -al
 
 EXPOSE 8080
+
 
 CMD ["npm", "start"]
