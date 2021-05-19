@@ -12,6 +12,7 @@ import {
 import {
   getAllCardsWithStatus,
   getCardsToInsert,
+  getCardsToUpdateStatus,
 } from 'selectors'
 
 import {
@@ -21,6 +22,7 @@ import {
   GET_SUBMISSIONS_SUCCEEDED,
   CREATE_CARD_REQUESTED,
   FETCH_CARDS,
+  UPDATE_CARD_REQUESTED,
 } from 'actionTypes';
 
 import client from '../../utils/client'
@@ -35,8 +37,10 @@ function* insertAndSaveCards(action) {
   yield delay(1000)
   const cardsToInsert = yield select((state) => getCardsToInsert(state))
   const cardsToBeSaved = yield select((state) => getAllCardsWithStatus(state))
+  const cardsToBeUpdated = yield select((state) => getCardsToUpdateStatus(state))
   try {
     yield all(cardsToInsert.map((card) => put({ type: CREATE_CARD_REQUESTED, ...card })))
+    yield all(cardsToBeUpdated.map((card) => put({ type: UPDATE_CARD_REQUESTED, ...card })))
     yield put({ type: FETCH_CARDS, cards: cardsToBeSaved })
   } catch (e) {
     console.log('ERROR', e)
@@ -92,10 +96,19 @@ function* createCard(action) {
 
 export function* updateCardStatus() {
   while (true) {
-    const {
-      cardId,
-      nextStatus
-    } = yield take(MOVE_CARD);
+    const result = yield take([MOVE_CARD, UPDATE_CARD_REQUESTED])
+
+    let cardId, nextStatus;
+
+    switch(result.type) {
+      case MOVE_CARD:
+        cardId = result.cardId,
+        nextStatus = result.nextStatus
+        break;
+      case UPDATE_CARD_REQUESTED:
+        cardId = result.courseWorkId,
+        nextStatus = result.status
+    }
 
     try {
       const {

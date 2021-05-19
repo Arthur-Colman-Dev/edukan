@@ -89,8 +89,8 @@ const classroomReducer = produce((draft = defaultState, action = {}) => {
         } = submission;
 
         let status = 'unknown';
-        if (classroomState === "TURNED_IN") {
-          status = 'done';
+        if (classroomState === "TURNED_IN" || classroomState === "RETURNED") {
+          status = 'DONE';
         }
 
         return {

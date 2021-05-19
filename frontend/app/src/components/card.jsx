@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
 import classnames from 'classnames';
-import moment from 'moment'
+import moment from 'moment';
 
 const Card = (props) => {
   const {
@@ -14,8 +13,6 @@ const Card = (props) => {
     url,
     dueDate,
   } = props;
-
-  const dispatch = useDispatch();
 
   return (
     <div
@@ -33,7 +30,7 @@ const Card = (props) => {
         'card__due-date',
         {'card__due-date--late': moment(moment(dueDate)).isAfter(moment()) === true},
         {'card__due-date--done': moment(moment(dueDate)).isAfter(moment()) === false && cardDone}
-      )}>{moment(dueDate).format('DD/MM/YY')}</span>
+      )}>{moment(dueDate).format('DD/MM/YY') === 'Invalid date' ? 'Sem prazo' : moment(dueDate).format('DD/MM/YY')}</span>
       <span
         className={classnames(
           'card__title',

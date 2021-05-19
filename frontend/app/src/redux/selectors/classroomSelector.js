@@ -7,7 +7,7 @@ export const getAllCards = createSelector(
   getCourses,
   (courses) => {
     return courses.reduce((agg, { assignments, name: courseName }) => {
-      assignments.map(({courseId, dueDate, id: courseWorkId, title, url, submissions: [{userId}]}) => {
+      assignments.map(({courseId, dueDate, id: courseWorkId, title, url, submissions: [{userId, status}]}) => {
         agg.push({
           courseId,
           courseName,
@@ -16,6 +16,7 @@ export const getAllCards = createSelector(
           title,
           url,
           userId,
+          status,
         })
       })
 
@@ -36,9 +37,9 @@ export const getAllCardsWithStatus = createSelector(
 
       let dbCardIndex = dbCards.findIndex((dbCard) => courseId === dbCard.courseId && courseWorkId === dbCard.courseWorkId)
 
-      if(dbCardIndex >= 0) {
+      if(dbCardIndex >= 0 && classroomCard.status === 'unknown') {
         classroomCard.status = dbCards[dbCardIndex].status
-      } else {
+      } else if(classroomCard.status === 'unknown'){
         classroomCard.status = 'TODO'
       }
 
@@ -53,6 +54,18 @@ export const getCardsToInsert = createSelector(
   (allCards, dbCards) => {
     return allCards.filter(({courseId, courseWorkId}) => {
       let dbCardIndex = dbCards.findIndex((dbCard) => courseId === dbCard.courseId && courseWorkId === dbCard.courseWorkId)
+
+      return dbCardIndex < 0
+    })
+  }
+)
+
+export const getCardsToUpdateStatus = createSelector(
+  getAllCardsWithStatus,
+  getDatabaseCards,
+  (allCards, dbCards) => {
+    return allCards.filter(({courseId, courseWorkId, status}) => {
+      let dbCardIndex = dbCards.findIndex((dbCard) => courseId === dbCard.courseId && courseWorkId === dbCard.courseWorkId && status === dbCard.status)
 
       return dbCardIndex < 0
     })

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Draggable } from 'react-beautiful-dnd';
@@ -10,7 +10,7 @@ import {
 
 import {
   getColumnCards
-} from 'selectors'
+} from 'selectors';
 
 const Column = (props) => {
   const {
@@ -26,8 +26,6 @@ const Column = (props) => {
   } = props;
 
   const columnCards = useSelector(getColumnCards)[columnId]
-
-  const dispatch = useDispatch();
 
   return (
     <div

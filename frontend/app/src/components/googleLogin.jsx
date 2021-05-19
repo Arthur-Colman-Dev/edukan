@@ -1,9 +1,7 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React from 'react';
 import { useGoogleApi } from 'react-gapi';
-import { useDispatch, useSelector } from 'react-redux';
-
+import { useDispatch } from 'react-redux';
 import googleIcon from '../assets/google.png'
-
 import {
   LOGIN_SUCCEEDED,
   LOGOUT_SUCCEEDED,
@@ -11,7 +9,6 @@ import {
 
 const GoogleLogin = (props) => {
   const dispatch = useDispatch();
-
 
   const scopePrefix = 'https://www.googleapis.com/auth/classroom.';
   const scopes = ['courses.readonly','course-work.readonly','student-submissions.me.readonly'];
@@ -33,7 +30,7 @@ const GoogleLogin = (props) => {
           resolve();
         }
       }
-    });
+    })
   }
 
   const login = async () => {

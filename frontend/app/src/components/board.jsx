@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
-import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import classnames from 'classnames';
-import Logo from '../assets/logo.png'
+import Logo from '../assets/logo.png';
 import ReactLoading from 'react-loading';
 
 import {
@@ -18,7 +16,7 @@ import {
 import {
   getColumnCards,
   getLoadingState
-} from 'selectors'
+} from 'selectors';
 
 const columns = [
   {
@@ -38,7 +36,7 @@ const columns = [
   }
 ]
 
-const Board = (props) => {
+const Board = () => {
 
   const dispatch = useDispatch();
 
@@ -85,6 +83,7 @@ const Board = (props) => {
                     <Droppable
                       key={columnId.toString()}
                       droppableId={columnId.toString()}
+                      isDropDisabled={columnId === 3}
                     >
                       {
                         (providedColumn) => (
