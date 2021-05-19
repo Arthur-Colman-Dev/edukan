@@ -32,6 +32,8 @@ services:
   frontend:
     restart: always
     image: edukan-frontend
+    volumes:
+      - frontend/app:/app
     build:
       context: ./frontend 
     env_file:
@@ -42,8 +44,6 @@ services:
       - network
     ports:
       - 8080:8080
-    volumes:
-      - './frontend/app:/app'
 
 networks:
   network:

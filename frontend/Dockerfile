@@ -2,7 +2,7 @@ FROM node:alpine
 
 WORKDIR /app
 
-COPY ["app/package.json", "app/package-lock.json", "./"]
+COPY ["app/package.json", "app/package-lock.json", "./app"]
 
 RUN npm install --silent
 
