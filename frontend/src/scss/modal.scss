@@ -1,0 +1,32 @@
+.modal__content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 40%;
+  background-color: $white;
+  border: 1px solid $gray400;
+  padding: 16px;
+  border-radius: 4px;
+  z-index: 2;
+}
+
+.modal__form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.input__container:not(:first-child) {
+  margin-top: 16px;
+}
+
+.input__container {
+  display: flex;
+  flex-direction: column;
+  
+  span {
+    margin-bottom: 8px;
+  }
+}

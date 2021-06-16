@@ -4,6 +4,7 @@ import {
   MOVE_CARD,
   FETCH_CARDS,
   LOGIN_SUCCEEDED,
+  CREATE_CARD,
 } from 'actionTypes';
 
 const defaultState = {
@@ -12,9 +13,9 @@ const defaultState = {
 }
 
 const cardsReducer = produce((draft = defaultState, action = {}) => {
-  let nextStatus, cardId, cards, cardIndex;
-  
-  switch(action.type) {
+  let nextStatus, cardId, cards, cardIndex, card;
+
+  switch (action.type) {
     case LOGIN_SUCCEEDED:
       draft.loading = true
       return draft
@@ -28,13 +29,20 @@ const cardsReducer = produce((draft = defaultState, action = {}) => {
 
       draft.items[cardIndex].status = nextStatus
       return draft
-    case FETCH_CARDS: 
+    case FETCH_CARDS:
       ({
         cards
       } = action)
 
       draft.items = cards
       draft.loading = false
+      return draft
+    case CREATE_CARD:
+      ({
+        card
+      } = action);
+
+      draft.items.push(card)
       return draft
     default:
       return draft

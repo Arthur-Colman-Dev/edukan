@@ -7,6 +7,7 @@ import ReactLoading from 'react-loading';
 import {
   Column,
   GoogleLogin,
+  Modal,
 } from 'components';
 
 import {
@@ -59,6 +60,7 @@ const Board = () => {
     <div className='board'>
       <div className='board__header'>
         <img className='logo' src={Logo} />
+        <Modal />
         <div className="buttons__container">
           <GoogleLogin />
         </div>

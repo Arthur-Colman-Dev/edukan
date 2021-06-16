@@ -56,9 +56,9 @@ Card.propTypes = {
     draggableProps: PropTypes.object.isRequired,
     dragHandleProps: PropTypes.object,
   }),
-  cardId: PropTypes.string.isRequired,
+  cardId: PropTypes.string,
   courseName: PropTypes.string.isRequired,
-  url: PropTypes.string.isRequired,
+  url: PropTypes.string,
   dueDate: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
 };
